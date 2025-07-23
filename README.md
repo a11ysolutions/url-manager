@@ -71,6 +71,7 @@ Application A
   - Templates
   - Site Editions
 - These filters should dynamically update the tree content.
+
 Suggestion: Give it some thought before starting. Maybe there is an optimal way to do it. 
 
 ### 3. Mutation
