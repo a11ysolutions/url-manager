@@ -1,70 +1,120 @@
-# Getting Started with Create React App
+# 🧪 Frontend Developer Test – Tree-based URL Manager
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🧠 Objective
 
-## Available Scripts
+Build an interface to visualize a list of URLs as a tree, enable filtering and selection, and trigger a GraphQL mutation with selected nodes.
 
-In the project directory, you can run:
+## 🧰 Tech Requirements
 
-### `npm start`
+- React
+- Redux
+- PrimeReact
+- Apollo Client (GraphQL)
+- JavaScript (no TypeScript)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🔗 Input Data
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+You will be querying a mock GraphQL endpoint to retrieve a list of URLs. Each URL will follow this format:
 
-### `npm test`
+```
+https://application/client/template/site-edition
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Each URL represents a 4-level hierarchy:
+- Level 1: Application
+- Level 2: Client
+- Level 3: Template
+- Level 4: Site Edition
 
-### `npm run build`
+The query is already defined in the file:  
+📄 `src/graphql/operations.js`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```graphql
+query GetUrls {
+  urls
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This returns a hardcoded list of sample URLs via a mocked Apollo Link — no backend setup is needed.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Hint: Use the `useQuery` hook from Apollo Client to fetch the URLs.
 
-### `npm run eject`
+## 🧱 Tasks
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 1. Tree View
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Parse the list of URLs into a hierarchical tree structure.
+- Use [PrimeReact's Tree component](https://primereact.org/tree/) to display the tree.
+- Allow selection and multi-selection of nodes (both parent and leaf).
+- Store the selected items in Redux state.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Example Tree Structure:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+Application A
+├── Client A
+│   ├── Template 1
+│   │   ├── Edition 1
+│   │   └── Edition 2
+│   └── Template 2
+│       └── Edition 1
+└── Client B
+    └── Template 3
+        └── Edition 1
+```
 
-## Learn More
+### 2. Filters
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Add multiselect dropdowns using PrimeReact to filter:
+  - Applications
+  - Clients
+  - Templates
+  - Site Editions
+- These filters should dynamically update the tree content.
+Suggestion: Give it some thought before starting. Maybe there is an optimal way to do it. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 3. Mutation
 
-### Code Splitting
+When the user clicks a **Submit** button, trigger a GraphQL mutation with the selected URLs.  
+The mutation is defined in:  
+📄 `src/graphql/operations.js`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```graphql
+mutation SubmitUrls($urls: [String!]!) {
+  submitUrls(urls: $urls) {
+    success
+    message
+  }
+}
+```
 
-### Analyzing the Bundle Size
+- This mutation is mocked using a custom Apollo Link.
+- It logs the submitted URLs to the browser console and returns a mock success response.
+- You **do not need to build a backend**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Hint: Use the `useMutation` hook from Apollo Client to trigger the mutation.
 
-### Making a Progressive Web App
+## 📝 Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **Do not worry about styling** – making the app visually attractive is **not** a priority.
+- You are **encouraged** to use AI tools, the internet, or any form of external help.
+- There are **no restrictions** – you may create any files, folders, or install any npm packages you feel are helpful.
+- Just be prepared to **discuss and defend your implementation decisions** in a follow-up conversation.
 
-### Advanced Configuration
+## 🚀 Getting Started
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+To run the project locally:
 
-### Deployment
+```bash
+# Install dependencies
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# Start the development server
+npm start
+```
 
-### `npm run build` fails to minify
+## ✅ Submission Instructions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Fork this repository.
+2. Implement your solution.
+3. Open a pull request with your changes.
