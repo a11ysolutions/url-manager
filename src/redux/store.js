@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import selectionReducer from "./selectionSlice";
+import selectedUrlsReducer from "./selectedUrlsSlice";
 
 export const store = configureStore({
   reducer: {
-    selection: selectionReducer,
+    selectedUrls: selectedUrlsReducer
   },
 });
 
