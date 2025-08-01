@@ -1,11 +1,6 @@
 import { parseUrlComponents } from './urlUtils';
 import { FILTERS } from '../constants';
 
-/**
- * Extrae opciones únicas para los filtros desde las URLs
- * @param {string[]} urls - Array de URLs
- * @returns {Object} - Opciones para cada filtro
- */
 export const extractFilterOptions = (urls) => {
   if (!Array.isArray(urls) || urls.length === 0) {
     return {
@@ -43,11 +38,7 @@ export const extractFilterOptions = (urls) => {
   };
 };
 
-/**
- * Valida si un conjunto de filtros es válido
- * @param {Object} filters - Objeto de filtros
- * @returns {boolean} - True si es válido
- */
+
 export const validateFilters = (filters) => {
   if (!filters || typeof filters !== 'object') return false;
   
@@ -55,22 +46,14 @@ export const validateFilters = (filters) => {
   return requiredKeys.every(key => key in filters);
 };
 
-/**
- * Cuenta cuántos filtros están activos
- * @param {Object} filters - Objeto de filtros
- * @returns {number} - Número de filtros activos
- */
+
 export const countActiveFilters = (filters) => {
   if (!validateFilters(filters)) return 0;
   
   return Object.values(filters).filter(value => value && value !== '').length;
 };
 
-/**
- * Crea un objeto de opciones para MultiSelect basado en las opciones de filtros
- * @param {Object} filterOptions - Opciones extraídas de las URLs
- * @returns {Object} - Opciones formateadas para MultiSelect
- */
+
 export const formatOptionsForMultiSelect = (filterOptions) => {
   const formatArray = (arr = [], labelKey) => 
     arr.map(item => ({
