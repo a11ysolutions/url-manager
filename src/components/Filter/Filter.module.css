@@ -1,0 +1,69 @@
+.container {
+  margin-bottom: 1rem;
+  /* Agregar el mismo ancho que los otros componentes */
+  max-width: 1200px;
+  margin: 0 auto 1rem auto;
+}
+
+.titleContainer {
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 20px;
+  text-align: left;
+  margin-left: 2.7rem;
+}
+
+.panel {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  border: 2px solid #e3f2fd;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-top: 2rem;
+}
+
+.filtersRow {
+  display: flex;  
+  flex-direction: row;
+  gap: 5rem;
+  flex: 1;
+  /* Remover el borde y padding de aquí ya que está en .panel */
+  border: none;
+  padding: 0;
+}
+
+.filterItem {
+  max-width: 16rem;
+  min-width: 12rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.clearButton {
+  margin-top: 1.8rem;
+  display: flex;
+  align-items: left;
+  margin-left: 1rem;
+}
+
+:global(.p-multiselect-clear-icon) {
+  position: absolute;
+  top: 50%;
+  margin-top: -.5rem;
+  right: 2.5rem !important;
+}
