@@ -1,65 +1,47 @@
 import { useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 
-import { SUBMIT_URLS } from '../graphql/operations';
+import { GET_URLS, SUBMIT_URLS } from '../graphql/operations';
 import {
   setSelectedUrls,
   setSelectedKeys,
   setFilter,
   clearFilters,
   clearSelections,
-  setSubmissionState,
   setSubmissionResult,
-  selectSelectedUrls,
-  selectFilters,
-  selectIsSubmitting,
-  selectSubmissionResult,
-  selectHasActiveFilters,
 } from '../redux/selectionSlice';
 
 import { extractFilterOptions } from '../utils/filterUtils';
 import { filterUrls, parseUrlsToTree, convertToTreeNodes, extractSelectedUrls } from '../utils/urlUtils';
-import { validateInputData } from '../utils/validation';
 
-export const useUrlManager = (data) => {
+export const useUrlManager = () => {
   const dispatch = useDispatch();
+  
+  const { data, loading, error } = useQuery(GET_URLS);
+  
+  const {
+    selectedUrls,
+    selectedKeys,
+    filters,
+    submissionResult
+  } = useSelector(state => state.selection);
 
-  const originalUrls = useMemo(() => {
-    if (!data) {
-      return [];
-    }
-    
-    if (!validateInputData(data)) {
-      console.warn('Invalid data received:', data);
-      return [];
-    }
-    return data?.urls || [];
-  }, [data]);
+  const [submitUrlsMutation, { loading: isSubmitting }] = useMutation(SUBMIT_URLS);
 
-  const selectedUrls = useSelector(selectSelectedUrls);
-  const filters = useSelector(selectFilters);
-  const isSubmitting = useSelector(selectIsSubmitting);
-  const submissionResult = useSelector(selectSubmissionResult);
-  const hasActiveFilters = useSelector(selectHasActiveFilters);
+  const originalUrls = useMemo(() => data?.urls || [], [data]);
 
-  const [submitUrlsMutation] = useMutation(SUBMIT_URLS);
+  const filteredUrls = useMemo(() => 
+    filterUrls(originalUrls, filters), [originalUrls, filters]);
 
-  const filteredUrls = useMemo(() => {
-    return filterUrls(originalUrls, filters);
-  }, [originalUrls, filters]);
-
-  const filterOptions = useMemo(() => {
-    return extractFilterOptions(originalUrls);
-  }, [originalUrls]);
+  const filterOptions = useMemo(() => 
+    extractFilterOptions(originalUrls), [originalUrls]);
 
   const treeNodes = useMemo(() => {
     if (filteredUrls.length === 0) return [];
     const treeData = parseUrlsToTree(filteredUrls);
     return convertToTreeNodes(treeData);
   }, [filteredUrls]);
-
-  const selectedKeys = useSelector(state => state.selection.selectedKeys);
 
   const handleSelectionChange = useCallback((e) => {
     dispatch(setSelectedKeys(e.value));
@@ -82,7 +64,6 @@ export const useUrlManager = (data) => {
   const handleSubmitUrls = useCallback(async () => {
     if (selectedUrls.length === 0) return;
 
-    dispatch(setSubmissionState(true));
     try {
       const { data: mutationData } = await submitUrlsMutation({
         variables: { urls: selectedUrls },
@@ -90,15 +71,19 @@ export const useUrlManager = (data) => {
       dispatch(setSubmissionResult(mutationData.submitUrls));
       dispatch(clearSelections());
     } catch (error) {
-      console.error('Error submitting URLs:', error);
       dispatch(setSubmissionResult({
         success: false,
-        message: error.message || 'Error en la submission',
+        message: 'Error en la submission',
       }));
     }
   }, [selectedUrls, submitUrlsMutation, dispatch]);
 
+  const hasActiveFilters = useMemo(() => 
+    Object.values(filters).some(value => value.length > 0), [filters]);
+
   return {
+    loading,
+    error,
     selectedUrls,
     filters,
     filterOptions,

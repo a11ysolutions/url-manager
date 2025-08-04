@@ -4,7 +4,9 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   padding: 24px;
   margin-top: 24px;
-  border: 1px solid #dee2e6;
+  border: 2px solid #e3f2fd;
+  max-width: 1200px;
+  margin: 24px auto 0 auto;
 }
 
 .header {
@@ -41,7 +43,7 @@
 
 .list {
   background-color: white;
-  border: 1px solid #dee2e6;
+  border: 1px solid #e3f2fd;
   border-radius: 6px;
   max-height: 220px;
   overflow-y: auto;
@@ -56,6 +58,10 @@
   background-color: white;
   transition: background-color 0.2s;
   cursor: pointer;
+}
+
+.listItem:hover {
+  background-color: #a0cff1ff !important;
 }
 
 .listItemAlt {

@@ -2,14 +2,10 @@ import { memo } from 'react';
 import styles from './SelectionSummary.module.css';
 import { Button } from 'primereact/button';
 import { Badge } from 'primereact/badge';
-import { MESSAGES, STYLES } from '../../constants';
+
 
 const UrlItem = memo(({ url, index }) => (
-  <div
-    className={`${styles.listItem} ${index % 2 !== 0 ? styles.listItemAlt : ''}`}
-    onMouseEnter={e => (e.currentTarget.style.backgroundColor = STYLES.HOVER_COLOR)}
-    onMouseLeave={e => (e.currentTarget.style.backgroundColor = index % 2 === 0 ? STYLES.EVEN_ROW : STYLES.ODD_ROW)}
-  >
+  <div className={`${styles.listItem} ${index % 2 !== 0 ? styles.listItemAlt : ''}`}>
     <span className={`pi pi-link ${styles.linkIcon}`}></span>
     <span className={styles.urlText}>{url}</span>
   </div>
@@ -22,9 +18,7 @@ const SelectionSummary = ({
   onClearSelections,
   onSubmit,
   isSubmitting,
-  submissionResult,
-  filteredCount,
-  totalCount
+  submissionResult
 }) => {
   const hasSelections = selectedUrls.length > 0;
 
@@ -32,7 +26,7 @@ const SelectionSummary = ({
     <div className={styles.summary}>
       <div className={styles.header}>
         <h2 className={styles.title}>
-          URLs seleccionadas ({selectedUrls.length})
+          Selected URLs ({selectedUrls.length})
           <Badge
             value={selectedUrls.length}
             severity={hasSelections ? "success" : "secondary"}
@@ -41,7 +35,7 @@ const SelectionSummary = ({
         </h2>
         {hasSelections && (
           <Button
-            label={MESSAGES.CLEAR_SELECTION}
+            label="Clear Selection"
             icon="pi pi-times"
             size="small"
             text
@@ -55,7 +49,7 @@ const SelectionSummary = ({
       {!hasSelections ? (
         <div className={styles.noSelection}>
           <span className="pi pi-info-circle" style={{ marginRight: '8px' }}></span>
-          {MESSAGES.NO_URLS}
+          No URLs selected
         </div>
       ) : (
         <div className={styles.list}>
@@ -67,7 +61,7 @@ const SelectionSummary = ({
 
       <div className={styles.footer}>
         <Button
-          label={MESSAGES.SEND_URLS}
+          label="Submit URLs"
           icon="pi pi-send"
           loading={isSubmitting}
           disabled={!hasSelections || isSubmitting}

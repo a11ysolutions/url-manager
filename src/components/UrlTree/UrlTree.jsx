@@ -1,32 +1,9 @@
 import styles from './UrlTree.module.css';
 import { Tree } from 'primereact/tree';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { MESSAGES } from '../../constants';
 
-const UrlTree = ({ 
-  nodes, 
-  selectedKeys, 
-  onSelectionChange, 
-  loading = false 
-}) => {
-  if (loading) {
-    return (
-      <div>
-        <ProgressSpinner size="50" strokeWidth="4" />
-        <span>{MESSAGES.LOADING}</span>
-      </div>
-    );
-  }
-  
+const UrlTree = ({ nodes, selectedKeys, onSelectionChange }) => {
   if (!nodes || nodes.length === 0) {
-    return (
-      <div>
-        <i></i>
-        <p>
-          {MESSAGES.NO_MATCH}
-        </p>
-      </div>
-    );
+    return null;
   }
   
   return (
@@ -37,6 +14,7 @@ const UrlTree = ({
         selectionMode="checkbox"
         selectionKeys={selectedKeys}
         onSelectionChange={onSelectionChange}
+        className={styles.tree}
       />
     </div>
   );
