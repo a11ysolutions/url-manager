@@ -1,26 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css"; 
 import "primereact/resources/primereact.min.css";                 
 import "primeicons/primeicons.css";       
+import UrlManager from './components/urlManager';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>URL Manager - Prueba Técnica</h1>
+        <p>Gestor de URLs basado en árbol con filtrado y selección</p>
       </header>
+      <main>
+        <UrlManager />
+      </main>
     </div>
   );
 }
